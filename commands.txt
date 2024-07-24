@@ -1,0 +1,28 @@
+gcloud sql connect ticketmaster-db --user=postgres --quiet
+
+CREATE TABLE ticketmaster_data (
+    event_id VARCHAR PRIMARY KEY,
+    event_name VARCHAR(100) NOT NULL,
+    event_url VARCHAR(255),
+    event_date DATE,
+    event_time TIME,
+    event_genre VARCHAR(50),
+    event_subgenre VARCHAR(50),
+    min_price FLOAT,
+    max_price FLOAT,
+    ticket_limit FLOAT,
+    venue_id VARCHAR(50),
+    venue_name VARCHAR(100),
+    venue_city VARCHAR(100),
+    venue_address VARCHAR(255),
+    venue_state VARCHAR(50),
+    venue_latitude FLOAT,
+    venue_longitude FLOAT,
+    venue_market VARCHAR(100),
+    main_attraction VARCHAR(100)
+);
+
+gcloud sql import csv ticketmaster-db gs://ticketmaster-csv-data/ticketmaster_gcp_data.csv  
+--database=ticketmaster --table=ticketmaster_data --columns=event_id,event_name,event_url,event_date,
+event_time,event_genre,event_subgenre,min_price,max_price,ticket_limit,venue_id,venue_name,venue_city,venue_address,
+venue_state,venue_latitude,venue_longitude,venue_market,main_attraction
